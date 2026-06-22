@@ -1,0 +1,1026 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Reframe</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600&display=swap');
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --ink:        rgba(10, 28, 14, 0.90);
+    --ink-2:      rgba(10, 28, 14, 0.55);
+    --ink-3:      rgba(10, 28, 14, 0.35);
+    --ink-4:      rgba(10, 28, 14, 0.18);
+    --glass:      rgba(255, 255, 255, 0.32);
+    --glass-b:    rgba(255, 255, 255, 0.62);
+    --glass-row:  rgba(255, 255, 255, 0.22);
+    --btn-dk:     rgba(14, 44, 20, 0.80);
+    --btn-dk-t:   rgba(230, 248, 232, 0.96);
+    --accent:     rgba(30, 100, 50, 0.70);
+  }
+
+  html { height: 100%; }
+
+  body {
+    font-family: 'Inter', -apple-system, sans-serif;
+    min-height: 100vh;
+    min-height: 100dvh;
+    background: #bdd4b4;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow-x: hidden;
+    position: relative;
+  }
+
+  /* ─── Background ─── */
+  .bg {
+    position: fixed;
+    inset: 0;
+    z-index: 0;
+    background:
+      radial-gradient(ellipse 90% 70% at 15%  5%,  #c6dcba 0%, transparent 55%),
+      radial-gradient(ellipse 70% 60% at 85% 85%,  #9dc4a2 0%, transparent 55%),
+      radial-gradient(ellipse 60% 50% at 55% 40%,  #d8eecc 0%, transparent 50%),
+      radial-gradient(ellipse 50% 65% at  5% 75%,  #aacaaa 0%, transparent 50%),
+      linear-gradient(155deg, #c8ddc0 0%, #a8c8a0 50%, #bcd8b2 100%);
+    animation: breathe 16s ease-in-out infinite alternate;
+  }
+
+  @keyframes breathe {
+    from { filter: brightness(1) saturate(1); }
+    to   { filter: brightness(1.04) saturate(1.06); }
+  }
+
+  .blob {
+    position: fixed;
+    border-radius: 50%;
+    filter: blur(70px);
+    pointer-events: none;
+    z-index: 1;
+    will-change: transform;
+  }
+
+  .blob-1 {
+    width: 480px; height: 480px;
+    background: radial-gradient(circle, rgba(100,160,100,0.45) 0%, transparent 70%);
+    top: -120px; left: -80px;
+    animation: b1 18s ease-in-out infinite;
+  }
+
+  .blob-2 {
+    width: 380px; height: 380px;
+    background: radial-gradient(circle, rgba(160,200,140,0.40) 0%, transparent 70%);
+    bottom: -80px; right: -60px;
+    animation: b2 22s ease-in-out infinite;
+  }
+
+  .blob-3 {
+    width: 300px; height: 300px;
+    background: radial-gradient(circle, rgba(210,235,195,0.50) 0%, transparent 70%);
+    top: 38%; left: 52%;
+    animation: b3 13s ease-in-out infinite;
+  }
+
+  @keyframes b1 { 0%,100%{transform:translate(0,0)}  50%{transform:translate(28px,22px)} }
+  @keyframes b2 { 0%,100%{transform:translate(0,0)}  50%{transform:translate(-22px,-18px)} }
+  @keyframes b3 { 0%,100%{transform:translate(0,0) scale(1)} 50%{transform:translate(-18px,14px) scale(1.1)} }
+
+  /* ─── App shell ─── */
+  .app {
+    position: relative;
+    z-index: 10;
+    width: 100%;
+    max-width: 400px;
+    padding: 56px 24px 48px;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    min-height: 100dvh;
+    justify-content: center;
+  }
+
+  /* ─── Top bar ─── */
+  .topbar {
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    padding: 0 2px;
+  }
+
+  .date-line {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.10em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 4px;
+  }
+
+  .title {
+    font-size: 22px;
+    font-weight: 300;
+    color: var(--ink);
+    letter-spacing: -0.03em;
+    line-height: 1.18;
+  }
+
+  .title strong { font-weight: 600; }
+
+  .history-btn {
+    margin-top: 2px;
+    background: rgba(255,255,255,0.38);
+    border: 1px solid rgba(255,255,255,0.65);
+    border-radius: 50px;
+    color: var(--ink-2);
+    font-family: inherit;
+    font-size: 12px;
+    font-weight: 500;
+    padding: 8px 18px;
+    cursor: pointer;
+    transition: background 0.2s;
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    white-space: nowrap;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .history-btn:active { background: rgba(255,255,255,0.55); }
+
+  /* ─── Progress ─── */
+  .progress-track {
+    display: flex;
+    gap: 5px;
+    padding: 0 2px;
+  }
+
+  .pip {
+    height: 2px;
+    flex: 1;
+    background: rgba(255,255,255,0.35);
+    border-radius: 2px;
+    transition: background 0.5s;
+  }
+
+  .pip.done   { background: rgba(20, 72, 32, 0.45); }
+  .pip.active { background: rgba(20, 72, 32, 0.75); }
+
+  /* ─── Card ─── */
+  .card {
+    background: var(--glass);
+    border: 1px solid var(--glass-b);
+    border-radius: 32px;
+    padding: 36px 32px 32px;
+    backdrop-filter: blur(48px);
+    -webkit-backdrop-filter: blur(48px);
+    box-shadow:
+      0 24px 64px rgba(20,60,20,0.14),
+      0 4px 18px rgba(20,60,20,0.07);
+    position: relative;
+    overflow: hidden;
+  }
+
+  .card::after {
+    content: '';
+    position: absolute;
+    top: 0; left: 32px; right: 32px;
+    height: 1px;
+    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.75), transparent);
+    pointer-events: none;
+  }
+
+  /* ─── Step typography ─── */
+  .step-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.13em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 10px;
+  }
+
+  .step-question {
+    font-size: 22px;
+    font-weight: 300;
+    line-height: 1.32;
+    color: var(--ink);
+    margin-bottom: 6px;
+    letter-spacing: -0.025em;
+  }
+
+  .step-question {
+    margin-bottom: 24px;
+  }
+
+  /* ─── Mood — vertical list ─── */
+  .mood-list {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    border-radius: 18px;
+    overflow: hidden;
+    border: 1px solid rgba(255,255,255,0.50);
+  }
+
+  .mood-row-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 15px 18px;
+    background: var(--glass-row);
+    cursor: pointer;
+    transition: background 0.15s;
+    border: none;
+    font-family: inherit;
+    width: 100%;
+    text-align: left;
+    border-bottom: 1px solid rgba(255,255,255,0.28);
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .mood-row-item:last-child { border-bottom: none; }
+
+  .mood-row-item:active,
+  .mood-row-item:hover { background: rgba(255,255,255,0.42); }
+
+  .mood-row-item.selected {
+    background: rgba(255,255,255,0.52);
+  }
+
+  .mood-row-icon {
+    font-size: 24px;
+    line-height: 1;
+    width: 32px;
+    text-align: center;
+    flex-shrink: 0;
+  }
+
+  .mood-row-label {
+    font-size: 15px;
+    font-weight: 400;
+    color: var(--ink);
+    flex: 1;
+  }
+
+  .mood-row-check {
+    width: 20px; height: 20px;
+    border-radius: 50%;
+    border: 1.5px solid var(--ink-4);
+    flex-shrink: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.2s;
+  }
+
+  .mood-row-item.selected .mood-row-check {
+    background: var(--btn-dk);
+    border-color: var(--btn-dk);
+  }
+
+  .mood-row-item.selected .mood-row-check::after {
+    content: '';
+    width: 5px; height: 8px;
+    border-right: 2px solid rgba(230,248,232,0.9);
+    border-bottom: 2px solid rgba(230,248,232,0.9);
+    transform: rotate(45deg) translate(-1px,-1px);
+    display: block;
+  }
+
+  /* ─── Slider ─── */
+  .slider-number {
+    font-size: 80px;
+    font-weight: 200;
+    color: var(--ink);
+    text-align: center;
+    letter-spacing: -0.06em;
+    line-height: 1;
+    margin-bottom: 16px;
+  }
+
+  .slider-sub {
+    text-align: center;
+    font-size: 12px;
+    color: var(--ink-3);
+    margin-bottom: 20px;
+    letter-spacing: 0.04em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  input[type=range] {
+    width: 100%;
+    -webkit-appearance: none;
+    height: 4px;
+    background: rgba(255,255,255,0.50);
+    border-radius: 4px;
+    outline: none;
+    cursor: pointer;
+  }
+
+  input[type=range]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 26px; height: 26px;
+    background: rgba(255,255,255,0.90);
+    border-radius: 50%;
+    cursor: pointer;
+    border: 1px solid rgba(255,255,255,1);
+    box-shadow: 0 2px 14px rgba(20,60,20,0.22), 0 1px 4px rgba(0,0,0,0.10);
+    transition: transform 0.15s;
+  }
+
+  input[type=range]:active::-webkit-slider-thumb { transform: scale(1.15); }
+
+  .slider-labels {
+    display: flex;
+    justify-content: space-between;
+    font-size: 11px;
+    color: var(--ink-3);
+    margin-top: 12px;
+    letter-spacing: 0.03em;
+  }
+
+  /* ─── Textarea ─── */
+  textarea {
+    width: 100%;
+    border: 1px solid rgba(255,255,255,0.50);
+    border-radius: 18px;
+    padding: 16px 18px;
+    font-family: inherit;
+    font-size: 15px;
+    line-height: 1.65;
+    color: var(--ink);
+    background: rgba(255,255,255,0.28);
+    resize: none;
+    outline: none;
+    transition: background 0.2s, border-color 0.2s;
+    min-height: 110px;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  textarea:focus {
+    background: rgba(255,255,255,0.44);
+    border-color: rgba(255,255,255,0.80);
+  }
+
+  textarea::placeholder { color: var(--ink-3); }
+
+  /* ─── Evidence ─── */
+  .evidence-pair {
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .evidence-col label {
+    display: block;
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.11em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 7px;
+  }
+
+  .evidence-col textarea {
+    min-height: 88px;
+    font-size: 15px;
+  }
+
+  /* ─── Divider ─── */
+  .divider {
+    height: 1px;
+    background: rgba(255,255,255,0.38);
+    margin: 24px 0;
+  }
+
+  /* ─── Buttons ─── */
+  .btn-row {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 24px;
+  }
+
+  .btn {
+    width: 100%;
+    padding: 16px 24px;
+    border-radius: 50px;
+    font-family: inherit;
+    font-size: 15px;
+    font-weight: 500;
+    cursor: pointer;
+    border: none;
+    transition: all 0.2s;
+    letter-spacing: -0.01em;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .btn-primary {
+    background: var(--btn-dk);
+    color: var(--btn-dk-t);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border: 1px solid rgba(40,90,40,0.25);
+    box-shadow: 0 4px 16px rgba(14,44,20,0.25);
+  }
+
+  .btn-primary:active { transform: scale(0.98); box-shadow: 0 2px 8px rgba(14,44,20,0.20); }
+
+  .btn-primary:disabled {
+    opacity: 0.28;
+    cursor: not-allowed;
+    transform: none;
+    box-shadow: none;
+  }
+
+  .btn-ghost {
+    background: rgba(255,255,255,0.30);
+    color: var(--ink-2);
+    border: 1px solid rgba(255,255,255,0.55);
+  }
+
+  .btn-ghost:active { background: rgba(255,255,255,0.45); }
+
+  /* ─── AI response ─── */
+  .ai-response {
+    margin-top: 24px;
+    padding: 20px;
+    background: rgba(255,255,255,0.22);
+    border-radius: 20px;
+    border: 1px solid rgba(255,255,255,0.50);
+  }
+
+  .ai-label {
+    font-size: 10px;
+    font-weight: 600;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--ink-3);
+    margin-bottom: 10px;
+  }
+
+  .ai-text {
+    font-size: 14px;
+    line-height: 1.78;
+    color: var(--ink-2);
+    white-space: pre-wrap;
+    font-weight: 400;
+  }
+
+  .typing-cursor::after {
+    content: '|';
+    animation: blink 0.75s infinite;
+    color: var(--ink-3);
+  }
+
+  /* ─── Loading ─── */
+  .loading-dots { display: flex; gap: 6px; align-items: center; }
+
+  .loading-dots span {
+    display: inline-block;
+    width: 6px; height: 6px;
+    background: var(--ink-3);
+    border-radius: 50%;
+    animation: bounce 1.2s infinite;
+  }
+
+  .loading-dots span:nth-child(2) { animation-delay: 0.18s; }
+  .loading-dots span:nth-child(3) { animation-delay: 0.36s; }
+
+  /* ─── Complete ─── */
+  .complete { text-align: center; padding: 8px 0 4px; }
+
+  .complete-icon {
+    width: 60px; height: 60px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.42);
+    border: 1px solid rgba(255,255,255,0.72);
+    display: flex; align-items: center; justify-content: center;
+    margin: 0 auto 20px;
+    box-shadow: 0 4px 18px rgba(20,60,20,0.14);
+    font-size: 22px;
+  }
+
+  .complete-heading {
+    font-size: 24px;
+    font-weight: 300;
+    letter-spacing: -0.03em;
+    color: var(--ink);
+    margin-bottom: 8px;
+  }
+
+  .complete-sub {
+    font-size: 14px;
+    color: var(--ink-3);
+    line-height: 1.6;
+    margin-bottom: 28px;
+    max-width: 280px;
+    margin-left: auto;
+    margin-right: auto;
+  }
+
+  .summary-block {
+    background: rgba(255,255,255,0.22);
+    border-radius: 20px;
+    padding: 4px 0;
+    margin-bottom: 14px;
+    border: 1px solid rgba(255,255,255,0.48);
+    text-align: left;
+    overflow: hidden;
+  }
+
+  .summary-row {
+    display: flex;
+    gap: 12px;
+    padding: 12px 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.32);
+    font-size: 13px;
+    line-height: 1.5;
+  }
+
+  .summary-row:last-child { border-bottom: none; }
+  .summary-key { color: var(--ink-3); min-width: 88px; font-weight: 500; flex-shrink: 0; font-size: 12px; }
+  .summary-val { color: var(--ink-2); }
+
+  .balanced-box {
+    background: rgba(255,255,255,0.22);
+    border-radius: 20px;
+    padding: 20px;
+    margin-bottom: 18px;
+    border: 1px solid rgba(255,255,255,0.48);
+    text-align: left;
+  }
+
+  /* ─── Drawer ─── */
+  .drawer-overlay {
+    position: fixed; inset: 0;
+    background: rgba(20,50,20,0.20);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    z-index: 100;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.28s;
+  }
+
+  .drawer-overlay.open { opacity: 1; pointer-events: all; }
+
+  .drawer {
+    position: fixed;
+    top: 0; right: 0; bottom: 0;
+    width: min(360px, 92vw);
+    background: rgba(175,210,165,0.78);
+    border-left: 1px solid rgba(255,255,255,0.52);
+    backdrop-filter: blur(52px);
+    -webkit-backdrop-filter: blur(52px);
+    z-index: 101;
+    transform: translateX(100%);
+    transition: transform 0.32s cubic-bezier(0.4,0,0.2,1);
+    display: flex; flex-direction: column; overflow: hidden;
+  }
+
+  .drawer.open { transform: translateX(0); }
+
+  .drawer-header {
+    padding: 28px 22px 18px;
+    border-bottom: 1px solid rgba(255,255,255,0.38);
+    display: flex; align-items: center; justify-content: space-between;
+    flex-shrink: 0;
+  }
+
+  .drawer-title { font-size: 15px; font-weight: 600; color: var(--ink); letter-spacing: -0.02em; }
+
+  .drawer-close {
+    background: rgba(255,255,255,0.38);
+    border: 1px solid rgba(255,255,255,0.60);
+    border-radius: 50%;
+    color: var(--ink-2);
+    font-size: 13px;
+    cursor: pointer;
+    width: 32px; height: 32px;
+    display: flex; align-items: center; justify-content: center;
+    transition: background 0.2s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .drawer-close:active { background: rgba(255,255,255,0.55); }
+
+  .drawer-body { flex: 1; overflow-y: auto; padding: 18px 16px; }
+  .drawer-body::-webkit-scrollbar { width: 3px; }
+  .drawer-body::-webkit-scrollbar-thumb { background: rgba(255,255,255,0.35); border-radius: 2px; }
+
+  .history-empty {
+    text-align: center; padding: 52px 20px;
+    color: var(--ink-3); font-size: 14px; line-height: 1.7;
+  }
+
+  .history-entry {
+    background: rgba(255,255,255,0.28);
+    border: 1px solid rgba(255,255,255,0.55);
+    border-radius: 20px;
+    margin-bottom: 12px; overflow: hidden;
+    cursor: pointer; transition: background 0.15s;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .history-entry:active { background: rgba(255,255,255,0.42); }
+
+  .history-entry-header {
+    padding: 15px 18px;
+    display: flex; align-items: center; justify-content: space-between; gap: 10px;
+  }
+
+  .history-entry-date { font-size: 12px; font-weight: 500; color: var(--ink-2); }
+
+  .history-entry-meta { display: flex; align-items: center; gap: 6px; }
+
+  .mood-pill, .anxiety-pill {
+    font-size: 10px; padding: 4px 10px;
+    border-radius: 20px; font-weight: 500;
+    background: rgba(255,255,255,0.42);
+    color: var(--ink-2);
+    border: 1px solid rgba(255,255,255,0.62);
+  }
+
+  .history-entry-body { padding: 0 18px 16px; display: none; }
+  .history-entry-body.open { display: block; }
+
+  .history-entry-row {
+    padding: 7px 0; border-top: 1px solid rgba(255,255,255,0.30);
+    font-size: 12px; line-height: 1.55; display: flex; gap: 12px;
+  }
+
+  .history-entry-key {
+    color: var(--ink-3); min-width: 68px; flex-shrink: 0;
+    font-size: 10px; font-weight: 600; letter-spacing: 0.07em;
+    text-transform: uppercase; padding-top: 1px;
+  }
+
+  .history-entry-val { color: var(--ink-2); }
+
+  .history-entry-reflection {
+    margin-top: 10px; padding: 13px 15px;
+    background: rgba(255,255,255,0.25); border-radius: 14px;
+    border: 1px solid rgba(255,255,255,0.45);
+    font-size: 12px; line-height: 1.68; color: var(--ink-2);
+  }
+
+  .history-entry-reflection .ai-label { font-size: 9px; margin-bottom: 7px; }
+
+  .drawer-footer { padding: 14px 16px; border-top: 1px solid rgba(255,255,255,0.35); flex-shrink: 0; }
+
+  .clear-btn {
+    background: rgba(255,255,255,0.25); border: 1px solid rgba(180,80,60,0.22);
+    border-radius: 50px; color: rgba(150,50,32,0.65);
+    font-family: inherit; font-size: 12px; font-weight: 500;
+    padding: 10px 18px; cursor: pointer; transition: all 0.2s;
+    width: 100%; letter-spacing: 0.02em;
+    -webkit-tap-highlight-color: transparent;
+  }
+
+  .clear-btn:active { background: rgba(180,80,60,0.10); }
+
+  /* ─── Animations ─── */
+  @keyframes stepFade {
+    from { opacity: 0; transform: translateY(10px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .step-fade {
+    animation: stepFade 0.3s ease both;
+  }
+
+  @keyframes bounce {
+    0%,80%,100% { transform: translateY(0); }
+    40% { transform: translateY(-5px); }
+  }
+
+  @keyframes blink {
+    0%,100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .blob, .bg { animation: none; }
+  }
+</style>
+</head>
+<body>
+
+<div class="bg"></div>
+<div class="blob blob-1"></div>
+<div class="blob blob-2"></div>
+<div class="blob blob-3"></div>
+
+<div class="drawer-overlay" id="drawerOverlay" onclick="closeHistory()"></div>
+<div class="drawer" id="historyDrawer">
+  <div class="drawer-header">
+    <span class="drawer-title">Past check-ins</span>
+    <button class="drawer-close" onclick="closeHistory()">&#x2715;</button>
+  </div>
+  <div class="drawer-body" id="drawerBody"></div>
+  <div class="drawer-footer">
+    <button class="clear-btn" onclick="clearHistory()">Clear all history</button>
+  </div>
+</div>
+
+<div class="app">
+  <div class="topbar">
+    <div>
+      <div class="date-line" id="dateLine"></div>
+      <h1 class="title"><strong>Thought record</strong></h1>
+    </div>
+    <button class="history-btn" onclick="openHistory()">History</button>
+  </div>
+
+  <div class="progress-track" id="progressTrack"></div>
+
+  <div class="card" id="mainCard">
+    <div id="stepContent"></div>
+  </div>
+</div>
+
+<script>
+var STEPS = [
+  { id:'mood',     label:'1 of 7  \u2014  Mood',        question:'How are you feeling now?' },
+  { id:'anxiety',  label:'2 of 7  \u2014  Distress',    question:'How distressed do you feel?' },
+  { id:'event',    label:'3 of 7  \u2014  Event',        question:'What happened?' },
+  { id:'thought',  label:'4 of 7  \u2014  Hot thought',  question:'What thought did that trigger?' },
+  { id:'emotion',  label:'5 of 7  \u2014  Emotion',      question:'What emotion did that create?' },
+  { id:'evidence', label:'6 of 7  \u2014  Evidence',     question:'What is the evidence?' },
+  { id:'balanced', label:'7 of 7  \u2014  Reframe',      question:'What is a more balanced way to see this?' }
+];
+
+var MOODS = [
+  { icon:'\uD83D\uDE0C', label:'Calm',    sub:'Settled and at ease' },
+  { icon:'\uD83D\uDE10', label:'Flat',    sub:'Low energy, going through motions' },
+  { icon:'\uD83D\uDE1F', label:'Anxious', sub:'Worried or on edge' },
+  { icon:'\uD83D\uDE24', label:'Tense',   sub:'Irritable or wound up' },
+  { icon:'\uD83D\uDE14', label:'Low',     sub:'Sad or depleted' }
+];
+
+var current = 0, answers = {}, aiReflection = '';
+
+function init() {
+  var d = new Date();
+  document.getElementById('dateLine').textContent =
+    d.toLocaleDateString('en-AU', { weekday:'long', day:'numeric', month:'long' });
+  renderProgress();
+  renderStep();
+}
+
+function renderProgress() {
+  document.getElementById('progressTrack').innerHTML = STEPS.map(function(_,i) {
+    return '<div class="pip ' + (i < current ? 'done' : i === current ? 'active' : '') + '"></div>';
+  }).join('');
+}
+
+function renderStep() {
+  if (current >= STEPS.length) { renderComplete(); return; }
+  var step = STEPS[current];
+  var input = '';
+
+  if (step.id === 'mood') {
+    input = '<div class="mood-list">' +
+      MOODS.map(function(m) {
+        var sel = answers.mood === m.label ? ' selected' : '';
+        return '<button class="mood-row-item' + sel + '" onclick="selectMood(\'' + m.label + '\')">' +
+          '<span class="mood-row-icon">' + m.icon + '</span>' +
+          '<span class="mood-row-label">' + m.label + '</span>' +
+          '<span class="mood-row-check"></span>' +
+          '</button>';
+      }).join('') + '</div>';
+
+  } else if (step.id === 'anxiety') {
+    var val = answers.anxiety !== undefined ? answers.anxiety : 5;
+    var subs = ['Very calm','Calm','Mostly calm','Mild tension','Noticeable','Uncomfortable',
+                'Quite distressed','High distress','Very high','Severe','Overwhelming'];
+    input = '<div class="slider-number" id="sliderNum">' + val + '</div>' +
+            '<div class="slider-sub" id="sliderSub">' + subs[val] + '</div>' +
+            '<div style="padding:0 0 8px">' +
+              '<input type="range" min="0" max="10" value="' + val + '" id="anxietySlider" ' +
+                'oninput="updateSlider(this.value,[\'' + subs.join("','") + '\'])">' +
+            '</div>';
+
+  } else if (step.id === 'evidence') {
+    input = '<div class="evidence-pair">' +
+      '<div class="evidence-col"><label>For</label>' +
+        '<textarea id="evidenceFor" placeholder="What supports this thought?">' + (answers.evidenceFor||'') + '</textarea></div>' +
+      '<div class="evidence-col"><label>Against</label>' +
+        '<textarea id="evidenceAgainst" placeholder="What contradicts it?">' + (answers.evidenceAgainst||'') + '</textarea></div>' +
+      '</div>';
+
+  } else {
+    input = '<textarea id="textInput" placeholder="' + step.hint + '" rows="4">' + (answers[step.id]||'') + '</textarea>';
+  }
+
+  var isLast = current === STEPS.length - 1;
+  var dis = (step.id === 'mood' && !answers.mood) ? ' disabled' : '';
+  var back = current > 0
+    ? '<button class="btn btn-ghost" onclick="back()">Back</button>'
+    : '';
+
+  var content =
+    '<div class="step-fade">' +
+      '<div class="step-label">' + step.label + '</div>' +
+      '<div class="step-question">' + step.question + '</div>' +
+      input +
+      '<div id="aiArea"></div>' +
+      '<div class="btn-row">' +
+        '<button class="btn btn-primary" id="nextBtn" onclick="next()"' + dis + '>' +
+          (isLast ? 'Finish' : 'Next') +
+        '</button>' +
+        back +
+      '</div>' +
+    '</div>';
+  document.getElementById('stepContent').innerHTML = content;
+}
+
+function selectMood(label) {
+  answers.mood = label;
+  document.querySelectorAll('.mood-row-item').forEach(function(b) {
+    b.classList.toggle('selected', b.querySelector('.mood-row-label').textContent === label);
+  });
+  document.getElementById('nextBtn').disabled = false;
+}
+
+function updateSlider(val, subs) {
+  answers.anxiety = parseInt(val);
+  document.getElementById('sliderNum').textContent = val;
+  document.getElementById('sliderSub').textContent = subs[parseInt(val)];
+}
+
+function back() { if (current > 0) { current--; renderProgress(); renderStep(); } }
+
+function next() {
+  var step = STEPS[current];
+  if (step.id === 'anxiety') {
+    answers.anxiety = parseInt((document.getElementById('anxietySlider')||{value:5}).value);
+  } else if (step.id === 'evidence') {
+    answers.evidenceFor = ((document.getElementById('evidenceFor')||{}).value||'').trim();
+    answers.evidenceAgainst = ((document.getElementById('evidenceAgainst')||{}).value||'').trim();
+  } else if (step.id !== 'mood') {
+    var t = document.getElementById('textInput');
+    if (!t || !t.value.trim()) return;
+    answers[step.id] = t.value.trim();
+  }
+  if (step.id === 'balanced') { getAIReflection(); return; }
+  current++; renderProgress(); renderStep();
+}
+
+function getAIReflection() {
+  var btn = document.getElementById('nextBtn');
+  btn.disabled = true; btn.textContent = 'Thinking\u2026';
+  document.getElementById('aiArea').innerHTML =
+    '<div class="ai-response"><div class="ai-label">Reflection</div>' +
+    '<div class="loading-dots"><span></span><span></span><span></span></div></div>';
+
+  fetch('https://api.anthropic.com/v1/messages', {
+    method:'POST',
+    headers:{'Content-Type':'application/json'},
+    body: JSON.stringify({
+      model:'claude-sonnet-4-6', max_tokens:1000,
+      messages:[{ role:'user', content:
+        'You are a warm, grounded CBT coach. Thought record:\n' +
+        'Mood: ' + answers.mood + '\nDistress: ' + answers.anxiety + '/10\n' +
+        'Event: ' + answers.event + '\nHot thought: ' + answers.thought + '\n' +
+        'Emotion: ' + answers.emotion + '\nEvidence FOR: ' + (answers.evidenceFor||'None') + '\n' +
+        'Evidence AGAINST: ' + (answers.evidenceAgainst||'None') + '\n' +
+        'Balanced thought: ' + answers.balanced + '\n\n' +
+        '1. Validate in 1 sentence.\n2. Name any distortion gently (if present).\n' +
+        '3. Build on their reframe with a realistic alternative using both sides of the evidence.\n' +
+        '4. One small grounding action for the next hour.\n\n' +
+        'Warm, direct, like a smart friend who knows CBT. No bullets. No headers. 180-220 words. ' +
+        'Light humour if it fits. "Ha, you again?" for recurring thoughts is welcome.'
+      }]
+    })
+  })
+  .then(function(r){
+    if (!r.ok) throw new Error('API error');
+    return r.json();
+  })
+  .then(function(d){
+    if (!d.content || !d.content[0] || !d.content[0].text) throw new Error('Empty response');
+    aiReflection = d.content[0].text;
+    document.getElementById('aiArea').innerHTML =
+      '<div class="ai-response"><div class="ai-label">Reflection</div>' +
+      '<div class="ai-text typing-cursor" id="aiTyping"></div></div>';
+    typeText(document.getElementById('aiTyping'), aiReflection, function(){
+      var el = document.getElementById('aiTyping');
+      if (el) el.classList.remove('typing-cursor');
+      btn.disabled=false; btn.textContent='Finish';
+      btn.onclick=function(){ current++; renderProgress(); renderStep(); };
+    });
+  })
+  .catch(function(){
+    aiReflection='';
+    document.getElementById('aiArea').innerHTML='';
+    btn.disabled=false; btn.textContent='Finish';
+    btn.onclick=function(){ current++; renderProgress(); renderStep(); };
+  });
+}
+
+function typeText(el, text, cb) {
+  var i=0;
+  (function tick(){
+    if(i<text.length){ el.textContent+=text[i++]; setTimeout(tick,10); }
+    else if(cb) cb();
+  })();
+}
+
+function saveEntry() {
+  try {
+    var h=[];
+    try{h=JSON.parse(localStorage.getItem('cbt_history')||'[]');}catch(e){}
+    h.unshift({ date:new Date().toISOString(), mood:answers.mood, anxiety:answers.anxiety,
+      event:answers.event, thought:answers.thought, emotion:answers.emotion,
+      evidenceFor:answers.evidenceFor||'', evidenceAgainst:answers.evidenceAgainst||'',
+      balanced:answers.balanced, reflection:aiReflection });
+    if(h.length>60) h=h.slice(0,60);
+    localStorage.setItem('cbt_history',JSON.stringify(h));
+  }catch(e){}
+}
+
+function renderComplete() {
+  saveEntry();
+  document.getElementById('progressTrack').innerHTML = STEPS.map(function(){return '<div class="pip done"></div>';}).join('');
+  document.getElementById('stepContent').innerHTML =
+    '<div class="complete step-fade">' +
+    '<div class="complete-icon">&#10003;</div>' +
+    '<div class="complete-heading">Done for today.</div>' +
+    '<div class="summary-block">' +
+      sr('Mood',answers.mood) + sr('Distress',(answers.anxiety||0)+'/10') +
+      sr('Event',answers.event) + sr('Hot thought',answers.thought) +
+      sr('Emotion',answers.emotion) +
+      sr('Evidence for',answers.evidenceFor||'\u2014') +
+      sr('Evidence against',answers.evidenceAgainst||'\u2014') +
+      sr('Balanced',answers.balanced) +
+    '</div>' +
+    (aiReflection?'<div class="balanced-box"><div class="ai-label">Your reflection</div><div class="ai-text">'+aiReflection+'</div></div>':'') +
+    '<div class="btn-row"><button class="btn btn-primary" onclick="restart()">Start a new check-in</button></div>' +
+    '</div>';
+}
+
+function sr(k,v){ return '<div class="summary-row"><span class="summary-key">'+k+'</span><span class="summary-val">'+(v||'')+'</span></div>'; }
+
+function restart(){ current=0; answers={}; aiReflection=''; renderProgress(); renderStep(); }
+
+function openHistory() {
+  var entries=[];
+  try{entries=JSON.parse(localStorage.getItem('cbt_history')||'[]');}catch(e){}
+  var body=document.getElementById('drawerBody');
+  if(!entries.length){
+    body.innerHTML='<div class="history-empty">No check-ins yet.<br>Complete your first one to see it here.</div>';
+  } else {
+    body.innerHTML=entries.map(function(e){
+      var d=new Date(e.date);
+      var ds=d.toLocaleDateString('en-AU',{weekday:'short',day:'numeric',month:'short',year:'numeric'});
+      var ts=d.toLocaleTimeString('en-AU',{hour:'numeric',minute:'2-digit'});
+      return '<div class="history-entry" onclick="toggleEntry(this)">' +
+        '<div class="history-entry-header">' +
+          '<span class="history-entry-date">'+ds+' &middot; '+ts+'</span>' +
+          '<div class="history-entry-meta">' +
+            '<span class="mood-pill">'+(e.mood||'')+'</span>' +
+            '<span class="anxiety-pill">'+(e.anxiety||0)+'/10</span>' +
+          '</div>' +
+        '</div>' +
+        '<div class="history-entry-body">' +
+          hr('Event',e.event)+hr('Hot thought',e.thought)+hr('Emotion',e.emotion)+
+          hr('For',e.evidenceFor)+hr('Against',e.evidenceAgainst)+hr('Balanced',e.balanced)+
+          (e.reflection?'<div class="history-entry-reflection"><div class="ai-label">Reflection</div>'+e.reflection+'</div>':'')+
+        '</div></div>';
+    }).join('');
+  }
+  document.getElementById('drawerOverlay').classList.add('open');
+  document.getElementById('historyDrawer').classList.add('open');
+}
+
+function hr(k,v){
+  if(!v)return'';
+  return'<div class="history-entry-row"><span class="history-entry-key">'+k+'</span><span class="history-entry-val">'+v+'</span></div>';
+}
+
+function toggleEntry(el){
+  var b=el.querySelector('.history-entry-body');
+  if(b)b.classList.toggle('open');
+}
+
+function closeHistory(){
+  document.getElementById('drawerOverlay').classList.remove('open');
+  document.getElementById('historyDrawer').classList.remove('open');
+}
+
+function clearHistory(){
+  if(confirm('Clear all check-in history? This cannot be undone.')){
+    try{localStorage.removeItem('cbt_history');}catch(e){}
+    closeHistory();
+  }
+}
+
+init();
+</script>
+</body>
+</html>
