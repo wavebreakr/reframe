@@ -22,6 +22,103 @@
     --accent:     rgba(30, 100, 50, 0.70);
   }
 
+  @media (prefers-color-scheme: dark) {
+    :root {
+      --ink:        rgba(210, 240, 215, 0.92);
+      --ink-2:      rgba(180, 220, 185, 0.60);
+      --ink-3:      rgba(160, 205, 168, 0.38);
+      --ink-4:      rgba(150, 195, 158, 0.18);
+      --glass:      rgba(18, 38, 22, 0.62);
+      --glass-b:    rgba(255, 255, 255, 0.10);
+      --glass-row:  rgba(255, 255, 255, 0.05);
+      --btn-dk:     rgba(100, 185, 120, 0.90);
+      --btn-dk-t:   rgba(6, 18, 8, 0.95);
+      --accent:     rgba(100, 185, 120, 0.80);
+    }
+
+    body { background: #0a1a0d; }
+
+    .bg {
+      background:
+        radial-gradient(ellipse 90% 70% at 15%  5%,  #0f2a12 0%, transparent 55%),
+        radial-gradient(ellipse 70% 60% at 85% 85%,  #0a1f0e 0%, transparent 55%),
+        radial-gradient(ellipse 60% 50% at 55% 40%,  #142e18 0%, transparent 50%),
+        radial-gradient(ellipse 50% 65% at  5% 75%,  #0c2210 0%, transparent 50%),
+        linear-gradient(155deg, #0e2212 0%, #091a0c 50%, #0c1f10 100%);
+    }
+
+    .blob-1 { background: radial-gradient(circle, rgba(40,100,55,0.50) 0%, transparent 70%); }
+    .blob-2 { background: radial-gradient(circle, rgba(30,80,45,0.45) 0%, transparent 70%); }
+    .blob-3 { background: radial-gradient(circle, rgba(50,110,65,0.35) 0%, transparent 70%); }
+
+    .card {
+      box-shadow:
+        0 24px 64px rgba(0,0,0,0.5),
+        0 4px 18px rgba(0,0,0,0.3);
+    }
+
+    .mood-list { border-color: rgba(255,255,255,0.08); }
+    .mood-row-item { border-bottom-color: rgba(255,255,255,0.06); }
+    .mood-row-item:hover,
+    .mood-row-item:active { background: rgba(255,255,255,0.07); }
+    .mood-row-item.selected { background: rgba(100,185,120,0.15); }
+    .mood-row-check { border-color: rgba(180,220,185,0.20); }
+
+    input[type=range] { background: rgba(255,255,255,0.12); }
+    input[type=range]::-webkit-slider-thumb {
+      background: rgba(100,185,120,0.90);
+      border-color: rgba(130,210,148,0.80);
+      box-shadow: 0 2px 14px rgba(80,160,100,0.35), 0 1px 4px rgba(0,0,0,0.3);
+    }
+
+    textarea {
+      background: rgba(0,0,0,0.25);
+      border-color: rgba(255,255,255,0.10);
+      color: var(--ink);
+    }
+
+    textarea:focus {
+      background: rgba(0,0,0,0.35);
+      border-color: rgba(100,185,120,0.35);
+    }
+
+    .history-btn { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.12); }
+    .history-btn:active { background: rgba(255,255,255,0.12); }
+
+    .pip              { background: rgba(255,255,255,0.12); }
+    .pip.done         { background: rgba(100,185,120,0.42); }
+    .pip.active       { background: rgba(100,185,120,0.82); }
+
+    .btn-ghost        { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); }
+    .btn-ghost:active { background: rgba(255,255,255,0.10); }
+
+    .ai-response      { background: rgba(40,80,50,0.35); border-color: rgba(100,185,120,0.20); }
+
+    .summary-block    { background: rgba(0,0,0,0.20); border-color: rgba(255,255,255,0.08); }
+    .summary-row      { border-bottom-color: rgba(255,255,255,0.06); }
+    .balanced-box     { background: rgba(40,80,50,0.30); border-color: rgba(100,185,120,0.18); }
+
+    .complete-icon    { background: rgba(100,185,120,0.15); border-color: rgba(100,185,120,0.25); }
+
+    .drawer           { background: rgba(10,24,13,0.92); border-left-color: rgba(255,255,255,0.08); }
+    .drawer-header    { border-bottom-color: rgba(255,255,255,0.08); }
+    .drawer-footer    { border-top-color: rgba(255,255,255,0.08); }
+    .drawer-close     { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.12); }
+    .drawer-close:active { background: rgba(255,255,255,0.12); }
+
+    .history-entry         { background: rgba(255,255,255,0.04); border-color: rgba(255,255,255,0.08); }
+    .history-entry:active  { background: rgba(255,255,255,0.08); }
+    .history-entry-header  { border-bottom-color: rgba(255,255,255,0.06); }
+    .mood-pill, .anxiety-pill {
+      background: rgba(255,255,255,0.07);
+      border-color: rgba(255,255,255,0.12);
+    }
+    .history-entry-row         { border-top-color: rgba(255,255,255,0.06); }
+    .history-entry-reflection  { background: rgba(40,80,50,0.25); border-color: rgba(100,185,120,0.15); }
+
+    .evidence-col label { color: var(--ink-3); }
+  }
+
   html { height: 100%; }
 
   body {
@@ -95,10 +192,10 @@
     z-index: 10;
     width: 100%;
     max-width: 400px;
-    padding: 56px 24px 48px;
+    padding: 64px 32px 48px;
     display: flex;
     flex-direction: column;
-    gap: 20px;
+    gap: 0;
     min-height: 100dvh;
     justify-content: center;
   }
@@ -106,9 +203,10 @@
   /* ─── Top bar ─── */
   .topbar {
     display: flex;
-    align-items: flex-start;
+    align-items: center;
     justify-content: space-between;
     padding: 0 2px;
+    margin-bottom: 28px;
   }
 
   .date-line {
@@ -117,11 +215,11 @@
     letter-spacing: 0.10em;
     text-transform: uppercase;
     color: var(--ink-3);
-    margin-bottom: 4px;
+    margin-bottom: 7px;
   }
 
   .title {
-    font-size: 22px;
+    font-size: 24px;
     font-weight: 300;
     color: var(--ink);
     letter-spacing: -0.03em;
@@ -131,7 +229,6 @@
   .title strong { font-weight: 600; }
 
   .history-btn {
-    margin-top: 2px;
     background: rgba(255,255,255,0.38);
     border: 1px solid rgba(255,255,255,0.65);
     border-radius: 50px;
@@ -139,13 +236,14 @@
     font-family: inherit;
     font-size: 12px;
     font-weight: 500;
-    padding: 8px 18px;
+    padding: 9px 20px;
     cursor: pointer;
     transition: background 0.2s;
     backdrop-filter: blur(20px);
     -webkit-backdrop-filter: blur(20px);
     white-space: nowrap;
     -webkit-tap-highlight-color: transparent;
+    flex-shrink: 0;
   }
 
   .history-btn:active { background: rgba(255,255,255,0.55); }
@@ -153,27 +251,32 @@
   /* ─── Progress ─── */
   .progress-track {
     display: flex;
-    gap: 5px;
-    padding: 0 2px;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 24px;
   }
 
   .pip {
-    height: 2px;
     flex: 1;
-    background: rgba(255,255,255,0.35);
-    border-radius: 2px;
-    transition: background 0.5s;
+    height: 6px;
+    border-radius: 50px;
+    background: rgba(255,255,255,0.40);
+    transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+    min-width: 6px;
   }
 
-  .pip.done   { background: rgba(20, 72, 32, 0.45); }
-  .pip.active { background: rgba(20, 72, 32, 0.75); }
+  .pip.done   { background: rgba(20, 72, 32, 0.42); }
+  .pip.active {
+    flex: 3;
+    background: rgba(20, 72, 32, 0.80);
+  }
 
   /* ─── Card ─── */
   .card {
     background: var(--glass);
     border: 1px solid var(--glass-b);
     border-radius: 32px;
-    padding: 36px 32px 32px;
+    padding: 28px 32px 32px;
     backdrop-filter: blur(48px);
     -webkit-backdrop-filter: blur(48px);
     box-shadow:
@@ -181,15 +284,6 @@
       0 4px 18px rgba(20,60,20,0.07);
     position: relative;
     overflow: hidden;
-  }
-
-  .card::after {
-    content: '';
-    position: absolute;
-    top: 0; left: 32px; right: 32px;
-    height: 1px;
-    background: linear-gradient(90deg, transparent, rgba(255,255,255,0.75), transparent);
-    pointer-events: none;
   }
 
   /* ─── Step typography ─── */
@@ -736,22 +830,21 @@
     <button class="history-btn" onclick="openHistory()">History</button>
   </div>
 
-  <div class="progress-track" id="progressTrack"></div>
-
   <div class="card" id="mainCard">
+    <div class="progress-track" id="progressTrack"></div>
     <div id="stepContent"></div>
   </div>
 </div>
 
 <script>
 var STEPS = [
-  { id:'mood',     label:'1 of 7  \u2014  Mood',        question:'How are you feeling now?' },
-  { id:'anxiety',  label:'2 of 7  \u2014  Distress',    question:'How distressed do you feel?' },
-  { id:'event',    label:'3 of 7  \u2014  Event',        question:'What happened?' },
-  { id:'thought',  label:'4 of 7  \u2014  Hot thought',  question:'What thought did that trigger?' },
-  { id:'emotion',  label:'5 of 7  \u2014  Emotion',      question:'What emotion did that create?' },
-  { id:'evidence', label:'6 of 7  \u2014  Evidence',     question:'What is the evidence?' },
-  { id:'balanced', label:'7 of 7  \u2014  Reframe',      question:'What is a more balanced way to see this?' }
+  { id:'mood',     label:'1', question:'How are you feeling?' },
+  { id:'anxiety',  label:'2', question:'What\'s your anxiety level?' },
+  { id:'event',    label:'3', question:'What\'s going on?',                         hint:'Describe an event' },
+  { id:'thought',  label:'4', question:'What thought did that trigger?',             hint:'Describe the thought' },
+  { id:'emotion',  label:'5', question:'What emotion did that create?',              hint:'Describe the emotion' },
+  { id:'evidence', label:'6', question:'What\'s the evidence?',                      forHint:'What supports this thought?', againstHint:'What contradicts it?' },
+  { id:'balanced', label:'7', question:'What\'s a more balanced way to see this?',  hint:'Describe the reframe' }
 ];
 
 var MOODS = [
@@ -808,13 +901,13 @@ function renderStep() {
   } else if (step.id === 'evidence') {
     input = '<div class="evidence-pair">' +
       '<div class="evidence-col"><label>For</label>' +
-        '<textarea id="evidenceFor" placeholder="What supports this thought?">' + (answers.evidenceFor||'') + '</textarea></div>' +
+        '<textarea id="evidenceFor" placeholder="' + (step.forHint||'') + '">' + (answers.evidenceFor||'') + '</textarea></div>' +
       '<div class="evidence-col"><label>Against</label>' +
-        '<textarea id="evidenceAgainst" placeholder="What contradicts it?">' + (answers.evidenceAgainst||'') + '</textarea></div>' +
+        '<textarea id="evidenceAgainst" placeholder="' + (step.againstHint||'') + '">' + (answers.evidenceAgainst||'') + '</textarea></div>' +
       '</div>';
 
   } else {
-    input = '<textarea id="textInput" placeholder="' + step.hint + '" rows="4">' + (answers[step.id]||'') + '</textarea>';
+    input = '<textarea id="textInput" placeholder="' + (step.hint||'') + '" rows="4">' + (answers[step.id]||'') + '</textarea>';
   }
 
   var isLast = current === STEPS.length - 1;
@@ -848,9 +941,10 @@ function selectMood(label) {
 }
 
 function updateSlider(val, subs) {
-  answers.anxiety = parseInt(val);
+  var n = parseInt(val);
+  answers.anxiety = n;
   document.getElementById('sliderNum').textContent = val;
-  document.getElementById('sliderSub').textContent = subs[parseInt(val)];
+  document.getElementById('sliderSub').textContent = subs[n];
 }
 
 function back() { if (current > 0) { current--; renderProgress(); renderStep(); } }
