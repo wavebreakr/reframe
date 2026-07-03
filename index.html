@@ -10,46 +10,46 @@
   *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
   :root {
-    --ink:        rgba(10, 28, 14, 0.90);
-    --ink-2:      rgba(10, 28, 14, 0.55);
-    --ink-3:      rgba(10, 28, 14, 0.35);
-    --ink-4:      rgba(10, 28, 14, 0.18);
-    --glass:      rgba(255, 255, 255, 0.32);
-    --glass-b:    rgba(255, 255, 255, 0.62);
-    --glass-row:  rgba(255, 255, 255, 0.22);
-    --btn-dk:     rgba(14, 44, 20, 0.80);
-    --btn-dk-t:   rgba(230, 248, 232, 0.96);
-    --accent:     rgba(30, 100, 50, 0.70);
+    --ink:        rgba(12, 42, 42, 0.88);
+    --ink-2:      rgba(12, 42, 42, 0.52);
+    --ink-3:      rgba(20, 55, 55, 0.34);
+    --ink-4:      rgba(20, 55, 55, 0.16);
+    --glass:      rgba(255, 255, 255, 0.34);
+    --glass-b:    rgba(255, 255, 255, 0.64);
+    --glass-row:  rgba(255, 255, 255, 0.24);
+    --btn-dk:     rgba(20, 70, 68, 0.78);
+    --btn-dk-t:   rgba(240, 250, 248, 0.97);
+    --accent:     rgba(30, 90, 90, 0.70);
   }
 
   @media (prefers-color-scheme: dark) {
     :root {
-      --ink:        rgba(210, 240, 215, 0.92);
-      --ink-2:      rgba(180, 220, 185, 0.60);
-      --ink-3:      rgba(160, 205, 168, 0.38);
-      --ink-4:      rgba(150, 195, 158, 0.18);
-      --glass:      rgba(18, 38, 22, 0.62);
+      --ink:        rgba(215, 240, 235, 0.92);
+      --ink-2:      rgba(180, 220, 213, 0.60);
+      --ink-3:      rgba(160, 205, 198, 0.38);
+      --ink-4:      rgba(150, 195, 188, 0.18);
+      --glass:      rgba(16, 36, 36, 0.62);
       --glass-b:    rgba(255, 255, 255, 0.10);
       --glass-row:  rgba(255, 255, 255, 0.05);
-      --btn-dk:     rgba(100, 185, 120, 0.90);
-      --btn-dk-t:   rgba(6, 18, 8, 0.95);
-      --accent:     rgba(100, 185, 120, 0.80);
+      --btn-dk:     rgba(95, 180, 172, 0.90);
+      --btn-dk-t:   rgba(6, 20, 19, 0.95);
+      --accent:     rgba(95, 180, 172, 0.80);
     }
 
-    body { background: #0a1a0d; }
+    body { background: #081a1a; }
 
     .bg {
       background:
-        radial-gradient(ellipse 90% 70% at 15%  5%,  #0f2a12 0%, transparent 55%),
-        radial-gradient(ellipse 70% 60% at 85% 85%,  #0a1f0e 0%, transparent 55%),
-        radial-gradient(ellipse 60% 50% at 55% 40%,  #142e18 0%, transparent 50%),
-        radial-gradient(ellipse 50% 65% at  5% 75%,  #0c2210 0%, transparent 50%),
-        linear-gradient(155deg, #0e2212 0%, #091a0c 50%, #0c1f10 100%);
+        radial-gradient(ellipse 90% 70% at 15%  5%,  #0f2a2a 0%, transparent 55%),
+        radial-gradient(ellipse 70% 60% at 85% 85%,  #0a1f1e 0%, transparent 55%),
+        radial-gradient(ellipse 60% 50% at 55% 40%,  #142e2c 0%, transparent 50%),
+        radial-gradient(ellipse 50% 65% at  5% 75%,  #0c2220 0%, transparent 50%),
+        linear-gradient(155deg, #0e2222 0%, #091a1a 50%, #0c1f1e 100%);
     }
 
-    .blob-1 { background: radial-gradient(circle, rgba(40,100,55,0.50) 0%, transparent 70%); }
-    .blob-2 { background: radial-gradient(circle, rgba(30,80,45,0.45) 0%, transparent 70%); }
-    .blob-3 { background: radial-gradient(circle, rgba(50,110,65,0.35) 0%, transparent 70%); }
+    .blob-1 { background: radial-gradient(circle, rgba(40,100,95,0.50) 0%, transparent 70%); }
+    .blob-2 { background: radial-gradient(circle, rgba(30,80,75,0.45) 0%, transparent 70%); }
+    .blob-3 { background: radial-gradient(circle, rgba(50,110,105,0.35) 0%, transparent 70%); }
 
     .card {
       box-shadow:
@@ -61,14 +61,14 @@
     .mood-row-item { border-bottom-color: rgba(255,255,255,0.06); }
     .mood-row-item:hover,
     .mood-row-item:active { background: rgba(255,255,255,0.07); }
-    .mood-row-item.selected { background: rgba(100,185,120,0.15); }
-    .mood-row-check { border-color: rgba(180,220,185,0.20); }
+    .mood-row-item.selected { background: rgba(95,180,172,0.15); }
+    .mood-row-check { border-color: rgba(180,220,213,0.20); }
 
     input[type=range] { background: rgba(255,255,255,0.12); }
     input[type=range]::-webkit-slider-thumb {
-      background: rgba(100,185,120,0.90);
-      border-color: rgba(130,210,148,0.80);
-      box-shadow: 0 2px 14px rgba(80,160,100,0.35), 0 1px 4px rgba(0,0,0,0.3);
+      background: rgba(95,180,172,0.90);
+      border-color: rgba(125,205,197,0.80);
+      box-shadow: 0 2px 14px rgba(75,155,148,0.35), 0 1px 4px rgba(0,0,0,0.3);
     }
 
     textarea {
@@ -79,28 +79,28 @@
 
     textarea:focus {
       background: rgba(0,0,0,0.35);
-      border-color: rgba(100,185,120,0.35);
+      border-color: rgba(95,180,172,0.35);
     }
 
     .history-btn { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.12); }
     .history-btn:active { background: rgba(255,255,255,0.12); }
 
     .pip              { background: rgba(255,255,255,0.12); }
-    .pip.done         { background: rgba(100,185,120,0.42); }
-    .pip.active       { background: rgba(100,185,120,0.82); }
+    .pip.done         { background: rgba(95,180,172,0.42); }
+    .pip.active       { background: rgba(95,180,172,0.82); }
 
     .btn-ghost        { background: rgba(255,255,255,0.06); border-color: rgba(255,255,255,0.12); }
     .btn-ghost:active { background: rgba(255,255,255,0.10); }
 
-    .ai-response      { background: rgba(40,80,50,0.35); border-color: rgba(100,185,120,0.20); }
+    .ai-response      { background: rgba(35,80,76,0.35); border-color: rgba(95,180,172,0.20); }
 
     .summary-block    { background: rgba(0,0,0,0.20); border-color: rgba(255,255,255,0.08); }
     .summary-row      { border-bottom-color: rgba(255,255,255,0.06); }
-    .balanced-box     { background: rgba(40,80,50,0.30); border-color: rgba(100,185,120,0.18); }
+    .balanced-box     { background: rgba(35,80,76,0.30); border-color: rgba(95,180,172,0.18); }
 
-    .complete-icon    { background: rgba(100,185,120,0.15); border-color: rgba(100,185,120,0.25); }
+    .complete-icon    { background: rgba(95,180,172,0.15); border-color: rgba(95,180,172,0.25); }
 
-    .drawer           { background: rgba(10,24,13,0.92); border-left-color: rgba(255,255,255,0.08); }
+    .drawer           { background: rgba(9,22,22,0.92); border-left-color: rgba(255,255,255,0.08); }
     .drawer-header    { border-bottom-color: rgba(255,255,255,0.08); }
     .drawer-footer    { border-top-color: rgba(255,255,255,0.08); }
     .drawer-close     { background: rgba(255,255,255,0.07); border-color: rgba(255,255,255,0.12); }
@@ -114,7 +114,7 @@
       border-color: rgba(255,255,255,0.12);
     }
     .history-entry-row         { border-top-color: rgba(255,255,255,0.06); }
-    .history-entry-reflection  { background: rgba(40,80,50,0.25); border-color: rgba(100,185,120,0.15); }
+    .history-entry-reflection  { background: rgba(35,80,76,0.25); border-color: rgba(95,180,172,0.15); }
 
     .evidence-col label { color: var(--ink-3); }
   }
@@ -125,7 +125,7 @@
     font-family: 'Inter', -apple-system, sans-serif;
     min-height: 100vh;
     min-height: 100dvh;
-    background: #bdd4b4;
+    background: #b9d4cb;
     display: flex;
     align-items: center;
     justify-content: center;
@@ -139,11 +139,11 @@
     inset: 0;
     z-index: 0;
     background:
-      radial-gradient(ellipse 90% 70% at 15%  5%,  #c6dcba 0%, transparent 55%),
-      radial-gradient(ellipse 70% 60% at 85% 85%,  #9dc4a2 0%, transparent 55%),
-      radial-gradient(ellipse 60% 50% at 55% 40%,  #d8eecc 0%, transparent 50%),
-      radial-gradient(ellipse 50% 65% at  5% 75%,  #aacaaa 0%, transparent 50%),
-      linear-gradient(155deg, #c8ddc0 0%, #a8c8a0 50%, #bcd8b2 100%);
+      radial-gradient(ellipse 90% 70% at 15%  5%,  #dfeee7 0%, transparent 55%),
+      radial-gradient(ellipse 70% 60% at 85% 85%,  #93bcbb 0%, transparent 55%),
+      radial-gradient(ellipse 60% 50% at 55% 40%,  #e6f1ea 0%, transparent 50%),
+      radial-gradient(ellipse 50% 65% at  5% 75%,  #a4c8c4 0%, transparent 50%),
+      linear-gradient(155deg, #e2ece6 0%, #b9d4cb 50%, #a7c6c9 100%);
     animation: breathe 16s ease-in-out infinite alternate;
   }
 
@@ -163,21 +163,21 @@
 
   .blob-1 {
     width: 480px; height: 480px;
-    background: radial-gradient(circle, rgba(100,160,100,0.45) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(90,150,145,0.42) 0%, transparent 70%);
     top: -120px; left: -80px;
     animation: b1 18s ease-in-out infinite;
   }
 
   .blob-2 {
     width: 380px; height: 380px;
-    background: radial-gradient(circle, rgba(160,200,140,0.40) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(140,190,180,0.38) 0%, transparent 70%);
     bottom: -80px; right: -60px;
     animation: b2 22s ease-in-out infinite;
   }
 
   .blob-3 {
     width: 300px; height: 300px;
-    background: radial-gradient(circle, rgba(210,235,195,0.50) 0%, transparent 70%);
+    background: radial-gradient(circle, rgba(220,238,228,0.55) 0%, transparent 70%);
     top: 38%; left: 52%;
     animation: b3 13s ease-in-out infinite;
   }
@@ -666,7 +666,7 @@
     position: fixed;
     top: 0; right: 0; bottom: 0;
     width: min(360px, 92vw);
-    background: rgba(175,210,165,0.78);
+    background: rgba(163,203,196,0.78);
     border-left: 1px solid rgba(255,255,255,0.52);
     backdrop-filter: blur(52px);
     -webkit-backdrop-filter: blur(52px);
@@ -847,6 +847,17 @@ var STEPS = [
   { id:'balanced', label:'7', question:'What\'s a more balanced way to see this?',  hint:'Describe the reframe' }
 ];
 
+var SHORT_STEPS = [
+  { id:'mood',    label:'1', question:'How are you feeling?' },
+  { id:'anxiety', label:'2', question:'What\'s your anxiety level?' },
+  { id:'note',    label:'3', question:'Anything on your mind?',  hint:'Optional \u2014 leave blank if not', optional:true }
+];
+
+function getActiveSteps() {
+  if (answers.anxiety !== undefined && answers.anxiety <= 2) return SHORT_STEPS;
+  return STEPS;
+}
+
 var MOODS = [
   { icon:'\uD83D\uDE0C', label:'Calm',    sub:'Settled and at ease' },
   { icon:'\uD83D\uDE10', label:'Flat',    sub:'Low energy, going through motions' },
@@ -866,14 +877,16 @@ function init() {
 }
 
 function renderProgress() {
-  document.getElementById('progressTrack').innerHTML = STEPS.map(function(_,i) {
+  var steps = getActiveSteps();
+  document.getElementById('progressTrack').innerHTML = steps.map(function(_,i) {
     return '<div class="pip ' + (i < current ? 'done' : i === current ? 'active' : '') + '"></div>';
   }).join('');
 }
 
 function renderStep() {
-  if (current >= STEPS.length) { renderComplete(); return; }
-  var step = STEPS[current];
+  var steps = getActiveSteps();
+  if (current >= steps.length) { renderComplete(); return; }
+  var step = steps[current];
   var input = '';
 
   if (step.id === 'mood') {
@@ -910,7 +923,7 @@ function renderStep() {
     input = '<textarea id="textInput" placeholder="' + (step.hint||'') + '" rows="4">' + (answers[step.id]||'') + '</textarea>';
   }
 
-  var isLast = current === STEPS.length - 1;
+  var isLast = current === steps.length - 1;
   var dis = (step.id === 'mood' && !answers.mood) ? ' disabled' : '';
   var back = current > 0
     ? '<button class="btn btn-ghost" onclick="back()">Back</button>'
@@ -950,18 +963,22 @@ function updateSlider(val, subs) {
 function back() { if (current > 0) { current--; renderProgress(); renderStep(); } }
 
 function next() {
-  var step = STEPS[current];
+  var steps = getActiveSteps();
+  var step = steps[current];
   if (step.id === 'anxiety') {
     answers.anxiety = parseInt((document.getElementById('anxietySlider')||{value:5}).value);
   } else if (step.id === 'evidence') {
     answers.evidenceFor = ((document.getElementById('evidenceFor')||{}).value||'').trim();
     answers.evidenceAgainst = ((document.getElementById('evidenceAgainst')||{}).value||'').trim();
+  } else if (step.id === 'note') {
+    answers.note = ((document.getElementById('textInput')||{}).value||'').trim();
   } else if (step.id !== 'mood') {
     var t = document.getElementById('textInput');
     if (!t || !t.value.trim()) return;
     answers[step.id] = t.value.trim();
   }
   if (step.id === 'balanced') { getAIReflection(); return; }
+  if (step.id === 'note') { current++; renderComplete(); return; }
   current++; renderProgress(); renderStep();
 }
 
@@ -1032,7 +1049,7 @@ function saveEntry() {
     h.unshift({ date:new Date().toISOString(), mood:answers.mood, anxiety:answers.anxiety,
       event:answers.event, thought:answers.thought, emotion:answers.emotion,
       evidenceFor:answers.evidenceFor||'', evidenceAgainst:answers.evidenceAgainst||'',
-      balanced:answers.balanced, reflection:aiReflection });
+      balanced:answers.balanced, note:answers.note||'', reflection:aiReflection });
     if(h.length>60) h=h.slice(0,60);
     localStorage.setItem('cbt_history',JSON.stringify(h));
   }catch(e){}
@@ -1040,7 +1057,25 @@ function saveEntry() {
 
 function renderComplete() {
   saveEntry();
-  document.getElementById('progressTrack').innerHTML = STEPS.map(function(){return '<div class="pip done"></div>';}).join('');
+  var steps = getActiveSteps();
+  document.getElementById('progressTrack').innerHTML = steps.map(function(){return '<div class="pip done"></div>';}).join('');
+
+  var isShort = steps === SHORT_STEPS;
+
+  if (isShort) {
+    document.getElementById('stepContent').innerHTML =
+      '<div class="complete step-fade">' +
+      '<div class="complete-icon">&#10003;</div>' +
+      '<div class="complete-heading">Good to hear.</div>' +
+      '<div class="summary-block">' +
+        sr('Mood',answers.mood) + sr('Anxiety',(answers.anxiety||0)+'/10') +
+        (answers.note ? sr('Note',answers.note) : '') +
+      '</div>' +
+      '<div class="btn-row"><button class="btn btn-primary" onclick="restart()">Start a new check-in</button></div>' +
+      '</div>';
+    return;
+  }
+
   document.getElementById('stepContent').innerHTML =
     '<div class="complete step-fade">' +
     '<div class="complete-icon">&#10003;</div>' +
@@ -1083,7 +1118,7 @@ function openHistory() {
         '</div>' +
         '<div class="history-entry-body">' +
           hr('Event',e.event)+hr('Hot thought',e.thought)+hr('Emotion',e.emotion)+
-          hr('For',e.evidenceFor)+hr('Against',e.evidenceAgainst)+hr('Balanced',e.balanced)+
+          hr('For',e.evidenceFor)+hr('Against',e.evidenceAgainst)+hr('Balanced',e.balanced)+hr('Note',e.note)+
           (e.reflection?'<div class="history-entry-reflection"><div class="ai-label">Reflection</div>'+e.reflection+'</div>':'')+
         '</div></div>';
     }).join('');
